@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# Core dependency -- required for main_controller.py to run at all.
+# ---------------------------------------------------------------------------
+# If you already have a full SUMO install (e.g. the Windows installer that
+# gave you the `sumo`/`sumo-gui` commands you're using), the safest option
+# is often to NOT pip install traci at all, and instead add SUMO's bundled
+# copy to your PYTHONPATH so it always matches your SUMO binary's version:
+#
+#   setx SUMO_HOME "C:\Program Files (x86)\Eclipse\Sumo"      (once, then restart the shell)
+#   setx PYTHONPATH "%SUMO_HOME%\tools"
+#
+# If you'd rather install it via pip instead, this covers it (works fine
+# alongside a separately-installed SUMO binary; pip's traci package is
+# fairly version-tolerant, but if you hit connection/protocol errors, try
+# matching it to your `sumo --version` output instead):
+traci>=1.19.0
+
+# ---------------------------------------------------------------------------
+# Optional -- only needed for the QAOA solver (--solver qaoa / --solver all).
+# Classical and Simulated Annealing solvers do not need these at all; the
+# QAOA solver itself imports them lazily and raises a clear, catchable error
+# naming exactly which package is missing if you try to use it without them.
+# ---------------------------------------------------------------------------
+qiskit>=1.0
+qiskit-aer>=0.14
+scipy>=1.10
+
+# ---------------------------------------------------------------------------
+# Optional -- only needed if modules/predictor.py's LSTM path is used (i.e.
+# you point it at an actual trained model file). The statistical fallback
+# predictor used otherwise needs none of this. Imported lazily; safely
+# skipped (falls back automatically) if not installed.
+# ---------------------------------------------------------------------------
+tensorflow>=2.15
+numpy>=1.24
+
+# ---------------------------------------------------------------------------
+# Optional -- only needed by the developer/inspection scripts under tools/
+# (e.g. find_corridor_tls.py, inspect_signal_programs.py). Not imported by
+# main_controller.py or any module under modules/.
+# ---------------------------------------------------------------------------
+sumolib>=1.19.0

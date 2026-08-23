@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<routes>
+
+    <!-- ==================== VEHICLE TYPES ==================== -->
+
+    <vType id="car"
+           vClass="passenger"
+           accel="2.6"
+           decel="4.5"
+           sigma="0.5"
+           length="5.0"
+           minGap="2.5"
+           maxSpeed="13.89"
+           color="0,0,1"/>
+
+    <vType id="bike"
+           vClass="motorcycle"
+           accel="3.0"
+           decel="4.5"
+           sigma="0.5"
+           length="2.0"
+           minGap="1.0"
+           maxSpeed="13.89"
+           color="0,1,0"/>
+
+    <vType id="bus"
+           vClass="bus"
+           accel="1.2"
+           decel="4.0"
+           sigma="0.5"
+           length="12.0"
+           minGap="2.5"
+           maxSpeed="10.0"
+           color="1,0.5,0"/>
+
+    <vType id="truck"
+           vClass="truck"
+           accel="0.8"
+           decel="3.5"
+           sigma="0.5"
+           length="10.0"
+           minGap="3.0"
+           maxSpeed="8.33"
+           color="0.5,0.3,0"/>
+
+    <!-- Ambulance: bright red, fast, emergency vClass -->
+    <vType id="ambulance"
+           vClass="emergency"
+           accel="4.0"
+           decel="6.0"
+           sigma="0.1"
+           length="6.5"
+           minGap="1.0"
+           maxSpeed="20.0"
+           color="1,0,0"
+           guiShape="emergency"/>
+
+
+    <!-- ==================== ROUTES ==================== -->
+
+    <!-- J1 -> J2 -> J3 -> J4 -> J5  (main corridor forward) -->
+    <route id="forward"
+           edges="254053176#2 254053185#1 -254053187 172853384#3 172853384#4 133763768#0 133763768#1 133763768#2 133763768#5 133763768#6 150510724#1 150510724#2 150510724#3 150510724#4 150510724#6 150510724#7 -1311812958"/>
+
+    <!-- J5 -> J4 -> J3 -> J2 -> J1  (main corridor reverse) -->
+    <route id="reverse"
+           edges="-631197284#3 -631197284#2 -631197284#1 27445936#7 150510724#4 24231604#0 24231604#1 24231604#2 24231604#3 24231604#4 1387944292 111814614#0 111814614#1 111814614#2 111814614#5 111814614#6 111814614#8 172853384#4 464465166#0 -1322924307 -559785241#1 -559785241#0 -254053185#1 -254053176#2"/>
+
+    <!-- Cross-street routes (all junctions) -->
+    <route id="j1_cross" edges="147575119#1 147575122"/>
+    <route id="j3_cross" edges="1290479888#2 1110164315#1"/>
+    <route id="j4_cross" edges="-269436416#0 269436416#0"/>
+    <route id="j5_cross" edges="457214835#12 1311812958"/>
+
+    <!-- Ambulance route: goes through J3 cross-street -->
+    <route id="ambulance_route" edges="1290479888#2 1110164315#1"/>
+
+
+    <!-- ==================== FLOWS & VEHICLES (STRICTLY CHRONOLOGICAL) ==================== -->
+
+    <!-- BEGIN = 0s -->
+    <flow id="forward_cars"        type="car"   route="forward"  begin="0" end="3600" vehsPerHour="600" departLane="best" departSpeed="max"/>
+    <flow id="forward_bikes"       type="bike"  route="forward"  begin="0" end="3600" vehsPerHour="300" departLane="best" departSpeed="max"/>
+    <flow id="forward_buses"       type="bus"   route="forward"  begin="0" end="3600" vehsPerHour="30"  departLane="best" departSpeed="max"/>
+    <flow id="forward_trucks"      type="truck" route="forward"  begin="0" end="3600" vehsPerHour="20"  departLane="best" departSpeed="max"/>
+
+    <flow id="reverse_cars"        type="car"   route="reverse"  begin="0" end="3600" vehsPerHour="600" departLane="best" departSpeed="max"/>
+    <flow id="reverse_bikes"       type="bike"  route="reverse"  begin="0" end="3600" vehsPerHour="300" departLane="best" departSpeed="max"/>
+    <flow id="reverse_buses"       type="bus"   route="reverse"  begin="0" end="3600" vehsPerHour="30"  departLane="best" departSpeed="max"/>
+
+    <flow id="j1_cross_cars"       type="car"   route="j1_cross" begin="0" end="3600" vehsPerHour="250" departLane="best" departSpeed="max"/>
+    <flow id="j1_cross_bikes"      type="bike"  route="j1_cross" begin="0" end="3600" vehsPerHour="100" departLane="best" departSpeed="max"/>
+
+    <flow id="j3_cross_cars_base"  type="car"   route="j3_cross" begin="0" end="120"  vehsPerHour="200" departLane="best" departSpeed="max"/>
+    <flow id="j3_cross_bikes"      type="bike"  route="j3_cross" begin="0" end="3600" vehsPerHour="150" departLane="best" departSpeed="max"/>
+
+    <flow id="j4_cross_cars"       type="car"   route="j4_cross" begin="0" end="3600" vehsPerHour="300" departLane="best" departSpeed="max"/>
+    <flow id="j4_cross_bikes"      type="bike"  route="j4_cross" begin="0" end="3600" vehsPerHour="120" departLane="best" departSpeed="max"/>
+
+    <flow id="j5_cross_cars"       type="car"   route="j5_cross" begin="0" end="3600" vehsPerHour="200" departLane="best" departSpeed="max"/>
+    <flow id="j5_cross_bikes"      type="bike"  route="j5_cross" begin="0" end="3600" vehsPerHour="80"  departLane="best" departSpeed="max"/>
+
+    <!-- BEGIN = 60s -->
+    <flow id="j4_cross_buses"      type="bus"   route="j4_cross" begin="60" end="3600" vehsPerHour="40" departLane="best" departSpeed="max"/>
+
+    <!-- BEGIN = 120s -->
+    <flow id="j3_cross_cars_surge" type="car"   route="j3_cross" begin="120" end="600" vehsPerHour="900" departLane="best" departSpeed="max"/>
+    <flow id="j3_cross_buses"      type="bus"   route="j3_cross" begin="120" end="600" vehsPerHour="60"  departLane="best" departSpeed="max"/>
+
+    <!-- DEPART = 150s: Ambulance 2 (forward corridor, early enough to complete in 600s sim) -->
+    <vehicle id="ambulance_2" type="ambulance" route="forward" depart="150" departLane="best" departSpeed="max"/>
+
+    <!-- DEPART = 300s: Ambulance 1 -->
+    <vehicle id="ambulance_1" type="ambulance" route="ambulance_route" depart="300" departLane="best" departSpeed="max"/>
+
+    <!-- BEGIN = 600s -->
+    <flow id="j3_cross_cars_tail"  type="car"   route="j3_cross" begin="600" end="3600" vehsPerHour="350" departLane="best" departSpeed="max"/>
+
+</routes>
